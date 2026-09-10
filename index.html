@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bengkel Persediaan Awal MyPhIS 3</title>
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple: #6a3fb5;
+    --teal: #1ea6a6;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #fff;
+  }
+
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url('img/bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+  }
+
+  .hero-body {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(106, 63, 181, 0.88) 0%, rgba(90, 76, 175, 0.82) 45%, rgba(30, 166, 166, 0.88) 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    width: 100%;
+    padding: 40px 24px;
+    text-align: center;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-logo {
+    width: 200px;
+    max-width: 60%;
+    height: auto;
+    margin-bottom: 36px;
+    filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.25));
+  }
+
+  .hero-eyebrow {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 18px;
+  }
+
+  .hero-title {
+    font-size: clamp(24px, 4vw, 42px);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0.3px;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.25);
+  }
+
+  .hero-divider {
+    width: 90px;
+    height: 4px;
+    border-radius: 2px;
+    background: #ffffff;
+    opacity: 0.85;
+    margin: 28px 0;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px 32px;
+  }
+
+  .hero-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: clamp(14px, 1.6vw, 18px);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.5px;
+  }
+
+  .hero-meta-item svg {
+    width: 19px;
+    height: 19px;
+    flex-shrink: 0;
+    color: #ffffff;
+  }
+
+  .hero-floating-nav {
+    position: relative;
+    z-index: 40;
+    margin: 0 24px 36px;
+    width: calc(100% - 48px);
+    max-width: 1080px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 22px;
+    padding: 24px 20px;
+    box-shadow: 0 20px 45px rgba(30, 20, 60, 0.2);
+    transition: background 0.25s ease, box-shadow 0.25s ease, border-radius 0.25s ease;
+  }
+
+  .hero-floating-nav.is-stuck {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, var(--purple), var(--teal));
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 16px 34px rgba(30, 20, 60, 0.35);
+  }
+
+  .hero-floating-nav.is-stuck .hero-floating-item {
+    gap: 6px;
+  }
+
+  .hero-floating-nav.is-stuck .hero-floating-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .hero-floating-nav.is-stuck .hero-floating-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .hero-floating-nav.is-stuck .hero-floating-label {
+    font-size: 11px;
+  }
+
+  .hero-floating-nav-sentinel {
+    height: 1px;
+  }
+
+  .hero-floating-nav-spacer {
+    display: none;
+  }
+
+  .hero-floating-nav-spacer.is-visible {
+    display: block;
+  }
+
+  .hero-floating-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .hero-floating-item:hover {
+    transform: translateY(-3px);
+  }
+
+  .hero-floating-item.is-current .hero-floating-icon {
+    background: rgba(255, 255, 255, 0.34);
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.16);
+  }
+
+  .hero-floating-item.is-current::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #ffffff;
+  }
+
+  .hero-floating-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-floating-icon svg {
+    width: 23px;
+    height: 23px;
+    stroke: #ffffff;
+  }
+
+  .hero-floating-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-align: center;
+  }
+
+  .hero-nav-scroll-hint {
+    display: none;
+    position: sticky;
+    right: 6px;
+    flex: 0 0 auto;
+    align-self: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.25s ease;
+    animation: hero-nav-hint-bounce 1.4s ease-in-out infinite;
+  }
+
+  .hero-nav-scroll-hint svg {
+    width: 15px;
+    height: 15px;
+    stroke: #ffffff;
+  }
+
+  .hero-nav-scroll-hint.is-hidden {
+    opacity: 0;
+  }
+
+  @keyframes hero-nav-hint-bounce {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(4px); }
+  }
+
+  @media (max-width: 640px) {
+    .hero-floating-nav {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      gap: 22px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+      margin: 0;
+      width: 100%;
+      max-width: none;
+      border: none;
+      border-radius: 0;
+    }
+    .hero-floating-nav.is-stuck {
+      left: 0;
+      right: 0;
+      top: 0;
+      transform: none;
+      width: 100%;
+    }
+    .hero-floating-nav::-webkit-scrollbar {
+      display: none;
+    }
+    .hero-floating-item {
+      flex: 0 0 auto;
+      min-width: 62px;
+      scroll-snap-align: start;
+    }
+    .hero-nav-scroll-hint {
+      display: flex;
+    }
+  }
+
+  .section {
+    min-height: 100vh;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 100px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-margin-top: 96px;
+  }
+
+  .section-title {
+    font-size: clamp(28px, 3.4vw, 38px);
+    font-weight: 700;
+    color: #241b4d;
+    letter-spacing: 0.2px;
+  }
+
+  .section-divider {
+    width: 70px;
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--purple), var(--teal));
+    margin: 20px 0 36px;
+  }
+
+  .section-text {
+    font-size: clamp(32px, 3.6vw, 38px);
+    font-weight: 400;
+    line-height: 1.7;
+    color: #3a3454;
+    max-width: 760px;
+  }
+
+  .objektif-row {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .objektif-image {
+    flex: 0 0 42%;
+    max-width: 420px;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+  }
+
+  .objektif-row .section-text {
+    flex: 1;
+    max-width: none;
+  }
+
+  @media (max-width: 768px) {
+    .objektif-row {
+      flex-direction: column;
+      gap: 32px;
+    }
+    .objektif-image {
+      max-width: 340px;
+    }
+  }
+
+  .section-placeholder {
+    padding: 56px 24px;
+    text-align: center;
+    color: #94a3b8;
+    font-style: italic;
+    border: 2px dashed #e2e8f0;
+    border-radius: 16px;
+  }
+
+  .tentatif-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .tentatif-tab {
+    flex: 1 1 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 20px;
+    border: 1.5px solid #e5e1f5;
+    border-radius: 14px;
+    background: #ffffff;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  }
+
+  .tentatif-tab:hover {
+    transform: translateY(-2px);
+  }
+
+  .tentatif-tab strong {
+    font-size: 15px;
+    font-weight: 700;
+    color: #241b4d;
+  }
+
+  .tentatif-tab span {
+    font-size: 13px;
+    color: #8b86a3;
+  }
+
+  .tentatif-tab.is-active {
+    border-color: transparent;
+    background: linear-gradient(135deg, var(--purple), var(--teal));
+    box-shadow: 0 12px 26px rgba(90, 60, 170, 0.25);
+  }
+
+  .tentatif-tab.is-active strong,
+  .tentatif-tab.is-active span {
+    color: #ffffff;
+  }
+
+  .tentatif-panel {
+    display: none;
+  }
+
+  .tentatif-panel.is-active {
+    display: block;
+  }
+
+  .tentatif-item {
+    display: flex;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid #ece9f7;
+  }
+
+  .tentatif-item:last-child {
+    border-bottom: none;
+  }
+
+  .tentatif-time {
+    flex: 0 0 160px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--purple);
+  }
+
+  .tentatif-activity strong {
+    display: block;
+    color: #241b4d;
+    font-size: 15.5px;
+    margin-bottom: 6px;
+  }
+
+  .tentatif-activity p {
+    color: #3a3454;
+    font-size: 15px;
+    margin: 0;
+  }
+
+  .tentatif-activity ul {
+    margin: 6px 0 0 18px;
+    padding: 0;
+    color: #5b5570;
+    font-size: 14.5px;
+    line-height: 1.7;
+  }
+
+  .tentatif-activity ul ul {
+    margin-top: 2px;
+  }
+
+  @media (max-width: 640px) {
+    .tentatif-item {
+      flex-direction: column;
+      gap: 6px;
+    }
+    .tentatif-time {
+      flex: none;
+    }
+  }
+
+  .back-to-top {
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    z-index: 50;
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple), var(--teal));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 12px 28px rgba(40, 20, 70, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(14px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+  }
+
+  .back-to-top.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .back-to-top svg {
+    width: 22px;
+    height: 22px;
+    stroke: #ffffff;
+  }
+</style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="hero-content">
+        <img src="img/logo_myphis.png" alt="MyPhIS Logo" class="hero-logo">
+        <p class="hero-eyebrow">Bengkel Persediaan Awal</p>
+        <h1 class="hero-title">Pelaksanaan <i>Pharmacy Information System</i> (MyPhIS 3) Untuk Fasiliti-Fasiliti Rintis</h1>
+        <div class="hero-divider"></div>
+        <div class="hero-meta">
+          <span class="hero-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            29 September - 1 Oktober 2026
+          </span>
+          <span class="hero-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            Riviera Suites Melaka, Melaka
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-floating-nav-sentinel" id="heroFloatingNavSentinel"></div>
+    <nav class="hero-floating-nav" id="heroFloatingNav">
+      <a class="hero-floating-item" href="#objektif">
+        <span class="hero-floating-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+        </span>
+        <span class="hero-floating-label">Objektif</span>
+      </a>
+      <a class="hero-floating-item" href="#tentatif">
+        <span class="hero-floating-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><line x1="8" y1="11" x2="16" y2="11"></line><line x1="8" y1="15" x2="13" y2="15"></line></svg>
+        </span>
+        <span class="hero-floating-label">Tentatif</span>
+      </a>
+      <div class="hero-floating-item">
+        <span class="hero-floating-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+        </span>
+        <span class="hero-floating-label">Kehadiran</span>
+      </div>
+      <div class="hero-floating-item">
+        <span class="hero-floating-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+        </span>
+        <span class="hero-floating-label">Penceramah</span>
+      </div>
+      <div class="hero-floating-item">
+        <span class="hero-floating-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        </span>
+        <span class="hero-floating-label">Peserta</span>
+      </div>
+      <div class="hero-floating-item">
+        <span class="hero-floating-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+        </span>
+        <span class="hero-floating-label">Fail</span>
+      </div>
+      <span class="hero-nav-scroll-hint" id="heroNavScrollHint" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </span>
+    </nav>
+    <div class="hero-floating-nav-spacer" id="heroFloatingNavSpacer"></div>
+  </section>
+
+  <section id="objektif" class="section">
+    <h2 class="section-title">Objektif</h2>
+    <div class="section-divider"></div>
+    <div class="objektif-row">
+      <img src="img/img_objective.png" alt="MyPhIS 3" class="objektif-image">
+      <p class="section-text">Memberi pendedahan dan persediaan awal pelaksanaan MyPhIS 3 kepada fasiliti-fasiliti rintis.</p>
+    </div>
+  </section>
+
+  <section id="tentatif" class="section">
+    <h2 class="section-title">Tentatif</h2>
+    <div class="section-divider"></div>
+
+    <div class="tentatif-tabs">
+      <button type="button" class="tentatif-tab is-active" data-day="day1">
+        <strong>29 September 2026</strong>
+        <span>Selasa</span>
+      </button>
+      <button type="button" class="tentatif-tab" data-day="day2">
+        <strong>30 September 2026</strong>
+        <span>Rabu</span>
+      </button>
+      <button type="button" class="tentatif-tab" data-day="day3">
+        <strong>1 Oktober 2026</strong>
+        <span>Khamis</span>
+      </button>
+    </div>
+
+    <div class="tentatif-panels">
+      <div class="tentatif-panel is-active" id="day1">
+        <div class="tentatif-item">
+          <div class="tentatif-time">3.00 pm - 3.30 pm</div>
+          <div class="tentatif-activity"><p>Pendaftaran penginapan</p></div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">3.30 pm - 4.00 pm</div>
+          <div class="tentatif-activity"><p>Pendaftaran bengkel</p></div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">4.00 pm - 5.00 pm</div>
+          <div class="tentatif-activity"><p>Taklimat berkaitan objektif bengkel &amp; sesi suai kenal</p></div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">5.00 pm - 5.30 pm</div>
+          <div class="tentatif-activity"><p>Cicipan (minum petang)</p></div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">5.30 pm - 8.30 pm</div>
+          <div class="tentatif-activity"><p>Rehat dan makan malam</p></div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">8.30 pm - 10.30 pm</div>
+          <div class="tentatif-activity">
+            <strong>Sesi 1</strong>
+            <ul>
+              <li>Pengurusan Perubahan (Change Management)</li>
+              <li>Latihan (Training)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">10.30 pm</div>
+          <div class="tentatif-activity"><p>Gabi (minum malam)</p></div>
+        </div>
+      </div>
+
+      <div class="tentatif-panel" id="day2">
+        <div class="tentatif-item">
+          <div class="tentatif-time">7.30 am - 8.30 am</div>
+          <div class="tentatif-activity"><p>Sarapan</p></div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">8.30 am - 10.00 am</div>
+          <div class="tentatif-activity">
+            <strong>Sesi 2</strong>
+            <p>Pengenalan aplikasi MyPhIS 3</p>
+          </div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">10.00 am - 10.30 am</div>
+          <div class="tentatif-activity"><p>Sesi bergambar &amp; Kudapan (minum pagi)</p></div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">10.30 am - 12.30 pm</div>
+          <div class="tentatif-activity">
+            <strong>Sesi 3</strong>
+            <p>Peralihan kepada MyPhIS 3</p>
+          </div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">12.30 pm - 2.30 pm</div>
+          <div class="tentatif-activity"><p>Merarau (makan tengah hari)</p></div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">2.30 pm - 4.30 pm</div>
+          <div class="tentatif-activity">
+            <strong>Sesi 4: Persediaan Fasiliti</strong>
+            <ul>
+              <li>Jadual Pembekalan Perkakasan</li>
+              <li>Aktiviti Pra Go Live
+                <ul>
+                  <li>Migrasi Data</li>
+                  <li>Ketersediaan Fasiliti</li>
+                  <li>Ketersediaan Pengguna</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">4.30 pm - 5.00 pm</div>
+          <div class="tentatif-activity"><p>Cicipan (minum petang)</p></div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">5.00 pm - 8.30 pm</div>
+          <div class="tentatif-activity"><p>Rehat dan makan malam</p></div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">8.30 pm - 10.30 pm</div>
+          <div class="tentatif-activity">
+            <strong>Sesi 5: Persediaan Fasiliti</strong>
+            <ul>
+              <li>Aktiviti Semasa Go Live
+                <ul>
+                  <li>Semakan Data</li>
+                  <li>Pengurusan operasi fasiliti menggunakan sistem baru</li>
+                </ul>
+              </li>
+              <li>Aktiviti Selepas Go Live
+                <ul>
+                  <li>Sokongan Teknikal dan Penyelenggaraan</li>
+                </ul>
+              </li>
+              <li>BCP (Business Continuity Plan)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">10.30 pm</div>
+          <div class="tentatif-activity"><p>Gabi (minum malam)</p></div>
+        </div>
+      </div>
+
+      <div class="tentatif-panel" id="day3">
+        <div class="tentatif-item">
+          <div class="tentatif-time">7.30 am - 8.30 am</div>
+          <div class="tentatif-activity"><p>Sarapan</p></div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">8.30 am - 10.30 am</div>
+          <div class="tentatif-activity">
+            <strong>Sesi 6: Persediaan Fasiliti</strong>
+            <ul>
+              <li>Provisional Acceptance Test (PAT)</li>
+              <li>Final Acceptance Test (FAT)</li>
+              <li>Jadual Pelaksanaan Go Live Bagi Setiap Fasiliti</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">10.30 am - 11.00 am</div>
+          <div class="tentatif-activity"><p>Kudapan (minum pagi)</p></div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">11.00 am - 12.00 pm</div>
+          <div class="tentatif-activity"><p>Rumusan keseluruhan</p></div>
+        </div>
+        <div class="tentatif-item">
+          <div class="tentatif-time">12.00 pm</div>
+          <div class="tentatif-activity"><p>Merarau (makan tengah hari) dan bersurai</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <button type="button" id="backToTop" class="back-to-top" aria-label="Kembali ke atas">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+  </button>
+
+  <script>
+    const backToTop = document.getElementById('backToTop');
+    const objektif = document.getElementById('objektif');
+
+    const toggleBackToTop = () => {
+      backToTop.classList.toggle('is-visible', window.scrollY >= objektif.offsetTop - window.innerHeight * 0.5);
+    };
+
+    window.addEventListener('scroll', toggleBackToTop);
+    toggleBackToTop();
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    document.querySelectorAll('.tentatif-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tentatif-tab').forEach((t) => t.classList.remove('is-active'));
+        document.querySelectorAll('.tentatif-panel').forEach((p) => p.classList.remove('is-active'));
+        tab.classList.add('is-active');
+        document.getElementById(tab.dataset.day).classList.add('is-active');
+      });
+    });
+
+    const heroNav = document.getElementById('heroFloatingNav');
+    const heroNavSentinel = document.getElementById('heroFloatingNavSentinel');
+    const heroNavSpacer = document.getElementById('heroFloatingNavSpacer');
+
+    const heroNavObserver = new IntersectionObserver(([entry]) => {
+      const stuck = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+      heroNav.classList.toggle('is-stuck', stuck);
+      heroNavSpacer.classList.toggle('is-visible', stuck);
+      heroNavSpacer.style.height = stuck ? `${heroNav.offsetHeight}px` : '0px';
+    }, { rootMargin: '-16px 0px 0px 0px', threshold: 0 });
+
+    heroNavObserver.observe(heroNavSentinel);
+
+    const heroNavLinks = document.querySelectorAll('.hero-floating-item[href^="#"]');
+    const heroNavSectionMap = new Map();
+    heroNavLinks.forEach((link) => {
+      const target = document.getElementById(link.getAttribute('href').slice(1));
+      if (target) heroNavSectionMap.set(target, link);
+    });
+
+    const updateHeroNavActive = () => {
+      const activationLine = window.innerHeight * 0.45;
+      let current = null;
+      heroNavSectionMap.forEach((link, section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= activationLine && rect.bottom >= activationLine) {
+          current = link;
+        }
+      });
+      heroNavLinks.forEach((l) => l.classList.toggle('is-current', l === current));
+    };
+
+    window.addEventListener('scroll', updateHeroNavActive, { passive: true });
+    updateHeroNavActive();
+
+    const heroNavScrollHint = document.getElementById('heroNavScrollHint');
+
+    const updateHeroNavScrollHint = () => {
+      const hasMoreToScroll = heroNav.scrollWidth - heroNav.scrollLeft - heroNav.clientWidth > 4;
+      heroNavScrollHint.classList.toggle('is-hidden', !hasMoreToScroll);
+    };
+
+    heroNav.addEventListener('scroll', updateHeroNavScrollHint, { passive: true });
+    window.addEventListener('resize', updateHeroNavScrollHint);
+    updateHeroNavScrollHint();
+  </script>
+
+</body>
+</html>
