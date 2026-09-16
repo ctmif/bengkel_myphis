@@ -145,7 +145,7 @@
     left: 50%;
     bottom: 20px;
     transform: translateX(-50%);
-    width: calc(100% - 220px);
+    width: calc(100% - 40px);
     max-width: 1080px;
     display: flex;
     justify-content: space-between;
@@ -161,7 +161,7 @@
     position: fixed;
     z-index: 41;
     right: 24px;
-    bottom: 20px;
+    bottom: 116px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -249,39 +249,6 @@
     text-align: center;
   }
 
-  .hero-nav-scroll-hint {
-    display: none;
-    position: sticky;
-    right: 6px;
-    flex: 0 0 auto;
-    align-self: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    opacity: 1;
-    transition: opacity 0.25s ease;
-    animation: hero-nav-hint-bounce 1.4s ease-in-out infinite;
-  }
-
-  .hero-nav-scroll-hint svg {
-    width: 15px;
-    height: 15px;
-    stroke: #ffffff;
-  }
-
-  .hero-nav-scroll-hint.is-hidden {
-    opacity: 0;
-  }
-
-  @keyframes hero-nav-hint-bounce {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(4px); }
-  }
-
   @media (max-width: 640px) {
     .hero-floating-nav {
       flex-wrap: nowrap;
@@ -291,32 +258,39 @@
       overflow-y: hidden;
       -webkit-overflow-scrolling: touch;
       scroll-snap-type: x proximity;
-      scrollbar-width: none;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.6) rgba(255, 255, 255, 0.15);
       left: 0;
-      right: 88px;
+      right: 0;
       bottom: 0;
       transform: none;
       margin: 0;
       width: auto;
       max-width: none;
+      padding: 14px 20px 18px;
       border: none;
       border-radius: 0;
     }
     .hero-floating-nav::-webkit-scrollbar {
-      display: none;
+      height: 4px;
+    }
+    .hero-floating-nav::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+    .hero-floating-nav::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 4px;
     }
     .hero-floating-item {
       flex: 0 0 auto;
       min-width: 56px;
       scroll-snap-align: start;
     }
-    .hero-nav-scroll-hint {
-      display: flex;
-    }
     .hero-back-to-top {
-      right: 0;
-      bottom: 0;
-      width: 88px;
+      right: 12px;
+      bottom: 96px;
+      width: auto;
     }
     #backToTop.hero-back-to-top {
       padding: 14px 10px;
@@ -548,6 +522,13 @@
       </div>
     </div>
 
+    <button type="button" class="hero-floating-item hero-back-to-top" id="backToTop" aria-label="Kembali ke atas">
+      <span class="hero-floating-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+      </span>
+      <span class="hero-floating-label">Ke atas</span>
+    </button>
+
     <nav class="hero-floating-nav" id="heroFloatingNav">
       <a class="hero-floating-item" href="#objektif">
         <span class="hero-floating-icon">
@@ -585,17 +566,7 @@
         </span>
         <span class="hero-floating-label">Fail</span>
       </a>
-      <span class="hero-nav-scroll-hint" id="heroNavScrollHint" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-      </span>
     </nav>
-
-    <button type="button" class="hero-floating-item hero-back-to-top" id="backToTop" aria-label="Kembali ke atas">
-      <span class="hero-floating-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
-      </span>
-      <span class="hero-floating-label">Ke atas</span>
-    </button>
   </section>
 
   <section id="objektif" class="section">
@@ -919,17 +890,6 @@
 
     window.addEventListener('scroll', updateHeroNavActive, { passive: true });
     updateHeroNavActive();
-
-    const heroNavScrollHint = document.getElementById('heroNavScrollHint');
-
-    const updateHeroNavScrollHint = () => {
-      const hasMoreToScroll = heroNav.scrollWidth - heroNav.scrollLeft - heroNav.clientWidth > 4;
-      heroNavScrollHint.classList.toggle('is-hidden', !hasMoreToScroll);
-    };
-
-    heroNav.addEventListener('scroll', updateHeroNavScrollHint, { passive: true });
-    window.addEventListener('resize', updateHeroNavScrollHint);
-    updateHeroNavScrollHint();
   </script>
 
 </body>
